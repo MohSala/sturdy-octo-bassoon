@@ -16,8 +16,8 @@ function LoginPage() {
     const location = useLocation();
 
     // reset login status
-    useEffect(() => { 
-        dispatch(userActions.logout()); 
+    useEffect(() => {
+        dispatch(userActions.logout());
     }, []);
 
     function handleChange(e) {
@@ -37,32 +37,63 @@ function LoginPage() {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
-            <h2>Login</h2>
-            <form name="form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
-                    {submitted && !username &&
-                        <div className="invalid-feedback">Username is required</div>
-                    }
+        <div className="container">
+            <div className="col-lg-8 offset-lg-2">
+                <div className="col-lg-8 offset-lg-2">
+                    <center style={{ marginTop: "20%", color: "#00008B" }}>
+                        <h4>Login</h4>
+                    </center>
+                    <div style={{
+                        // border: "0.5px solid grey",
+                        marginTop: "10%",
+                        borderRadius: 10,
+                        padding: 20,
+                        boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+                        transition: "0.3s"
+                    }}>
+                        <form name="form" onSubmit={handleSubmit} autocomplete="off">
+                            <div className="form-group">
+                                <label style={{ fontFamily: 'Raleway' }}>Email</label>
+                                <input type="text" name="username" value={username}
+                                    onChange={handleChange}
+                                    className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
+                                {submitted && !username &&
+                                    <div className="invalid-feedback">Email is required</div>
+                                }
+                            </div>
+                            <div className="form-group">
+                                <label style={{ fontFamily: 'Raleway' }}>Password</label>
+                                <input type="password" name="password"
+                                    value={password} onChange={handleChange}
+                                    className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                                {submitted && !password &&
+                                    <div className="invalid-feedback">Password is required</div>
+                                }
+                            </div>
+                            <div className="form-group">
+                                <button className="btn btn-primary btn-block" style={{
+                                    backgroundColor: "#00008B",
+                                    marginTop: "10%",
+                                }}>
+                                    {loggingIn &&
+                                        <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <center style={{ marginTop: "8%" }}>
+                        <Link to="/register" style={{
+                            fontFamily: 'Raleway',
+                            textDecoration: "none",
+                            color: "black"
+                        }}>Don't have an account? Sign up here </Link>
+                    </center>
+
                 </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
-                    {submitted && !password &&
-                        <div className="invalid-feedback">Password is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-primary">
-                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Login
-                    </button>
-                    <Link to="/register" className="btn btn-link">Register</Link>
-                </div>
-            </form>
+            </div>
         </div>
+
     );
 }
 
