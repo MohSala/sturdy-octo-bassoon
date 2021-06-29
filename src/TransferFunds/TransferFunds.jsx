@@ -1,19 +1,19 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import { FormInput } from "../_components/FormInput";
-import {useDispatch, useSelector} from "react-redux";
-import {depositMoney, verifyPin} from "../_actions/depositMoneyActions";
+import { useDispatch, useSelector } from "react-redux";
+import { depositMoney, verifyPin } from "../_actions/depositMoneyActions";
 
 
 export const TransferFunds = () => {
     const [transferFundsInputs, setTransferFundsInputs] = useState({
-        amount:"",
+        amount: "",
         pin: ""
     });
     const [submitted, setSubmitted] = useState(false);
     const { amount, pin } = transferFundsInputs;
     const dispatch = useDispatch();
-    const formFields =[
+    const formFields = [
         {
             id: "recipient",
             type: "text",
@@ -29,7 +29,7 @@ export const TransferFunds = () => {
         {
             id: "reason",
             type: "text",
-            label: "Reason",
+            label: "Description",
             name: 'reason',
         },
     ]
@@ -38,7 +38,7 @@ export const TransferFunds = () => {
         type: "text",
         label: "PIN",
     }
-    const handleSubmit = (e) =>  {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
 
@@ -57,7 +57,7 @@ export const TransferFunds = () => {
             }
         })
     }
-    return(
+    return (
         <div className="card">
             <div className="card-header">
                 TRANSFER FUNDS

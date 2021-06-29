@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import TransactionModal from './modals/TransactionModal';
 import { userActions } from '../_actions';
+import { DepositMoney } from '../DepositMoney/DepositMoney';
+import { TransferFunds } from '../TransferFunds/TransferFunds';
+import UserProfile from './modals/UserProfile';
 
 function HomePage() {
     const users = useSelector(state => state.users);
@@ -20,36 +23,52 @@ function HomePage() {
 
     return (
         <div>
-            {/* <h1>Hi {user.firstName}!</h1>
-            <p>You're logged in with React Hooks!!</p>
-            <h3>All registered users:</h3>
-            {users.loading && <em>Loading users...</em>}
-            {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-            {users.items &&
-                <ul>
-                    {users.items.map((user, index) =>
-                        <li key={user.id}>
-                            {user.firstName + ' ' + user.lastName}
-                            {
-                                user.deleting ? <em> - Deleting...</em>
-                                : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                : <span> - <a onClick={() => handleDeleteUser(user.id)} className="text-primary">Delete</a></span>
-                            }
-                        </li>
-                    )}
-                </ul>
-            }
-            <p>
-                <Link to="/login">Logout</Link>
-            </p>  */}
             <div style={{ width: "100%", backgroundColor: "#00008B", height: '100px' }}>
-                <div style={{ display: "flex", justifyContent: "flex-end", padding: 10, alignItems: "center" }}>
+                <div data-toggle="modal" data-target="#userProfile"
+                    style={{ display: "flex", justifyContent: "flex-end", padding: 10, alignItems: "center" }}>
                     <div style={{
                         border: "2px solid grey", borderRadius: 50,
                         height: 60, width: 60, marginTop: 10, backgroundColor: "#fff",
                         display: "flex", justifyContent: "center", alignItems: "center",
                     }}>
                         <h4 style={{ textAlign: "center" }}>MS</h4>
+                    </div>
+                </div>
+
+                {/*User Modal Trigger */}
+                <div class="modal fade" id="userProfile" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="depositMoneyLabel">USER PROFILE</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
+                                    <h5 style={{ textAlign: "center" }}>
+                                        YOUR TAG TO RECEIVE MONEY IS:
+                                    </h5>
+
+                                    <button className="btn" style={{
+                                        marginTop: 30, backgroundColor: "#00008B",
+                                        width: 300, alignSelf: "center", padding: 15,
+                                        color: "#fff"
+                                    }}>
+                                        $BIGBREAD
+                                    </button>
+
+                                    {/* <Link to='/login' style={{ alignSelf: "center" }}>
+                                        <button className="btn btn-outline-danger" style={{ marginTop: 60, width: 300, alignSelf: "center" }}>
+                                            LOGOUT
+                                        </button>
+                                    </ Link> */}
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,19 +100,53 @@ function HomePage() {
                     justifyContent: "space-evenly",
                     marginTop: 20
                 }}>
-                    <button className="btn col-md-5" style={{
+                    <button className="btn col-md-5" data-toggle="modal" data-target="#transferFunds" style={{
                         height: 100, backgroundColor: "#3DB86E", color: "#fff"
                         , fontWeight: "bolder"
                     }}>
                         SEND MONEY
                     </button>
-                    <button className="btn col-md-5"
+                    <button className="btn col-md-5" data-toggle="modal" data-target="#depositMoney"
                         style={{
                             backgroundColor: "#00008B", color: "#fff",
                             height: 100, fontWeight: "bolder"
                         }}>
                         ADD MONEY
                     </button>
+
+                    {/*Deposit money Modal Trigger */}
+                    <div class="modal fade" id="transferFunds" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="depositMoneyLabel">Transfer Funds</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <TransferFunds />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/*Deposit money Modal Trigger */}
+                    <div class="modal fade" id="depositMoney" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="depositMoneyLabel">Deposit money</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <DepositMoney />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {/* buttons */}
 
@@ -152,6 +205,8 @@ function HomePage() {
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
 
