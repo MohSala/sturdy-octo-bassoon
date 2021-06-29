@@ -7,11 +7,13 @@ import { depositMoney, verifyPin } from "../_actions/depositMoneyActions";
 
 export const TransferFunds = () => {
     const [transferFundsInputs, setTransferFundsInputs] = useState({
+        tag: "",
         amount: "",
-        pin: ""
+        reason:"",
     });
     const [submitted, setSubmitted] = useState(false);
-    const { amount, pin } = transferFundsInputs;
+    const [pin, setPin] = useState("");
+    const { tag, amount, reason } = transferFundsInputs;
     const dispatch = useDispatch();
     const formFields = [
         {
@@ -33,11 +35,7 @@ export const TransferFunds = () => {
             name: 'reason',
         },
     ]
-    const pinFields = {
-        id: "pin",
-        type: "text",
-        label: "PIN",
-    }
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
@@ -59,22 +57,18 @@ export const TransferFunds = () => {
     }
     return (
         <div className="card">
-            <div className="card-header">
-                TRANSFER FUNDS
-            </div>
             <div className="card-body">
-                {submitted && !amount && !pin && (
+                {submitted && !parseInt(amount,10) && !parseInt(pin,10) && (
                     <div className="">
                         Please enter a  valid pin or amount
                     </div>
                 )}
                 <FormInput
                     formFields={formFields}
-                    pinFields={pinFields}
-                    pinDigits={4}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                     transferFunds={true}
+                    setPin={setPin}
                 />
             </div>
         </div>
