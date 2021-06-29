@@ -1,23 +1,23 @@
 import React from "react";
 
-const InputWrapper = ({field, handleChange, isPin}) => {
+const InputWrapper = ({ field, handleChange, isPin }) => {
     return (
-            <input type={field.type}
-                   name={field.id}
-                   value={field.value}
-                   className="form-control"
-                   onChange={handleChange}
-                // required
-            />
+        <input type={field.type}
+            name={field.id}
+            value={field.value}
+            className="form-control"
+            onChange={handleChange}
+        // required
+        />
     )
 }
 
-const PinWrapper = ({pinDigits, pinFields, handleChange}) => {
+const PinWrapper = ({ pinDigits, pinFields, handleChange }) => {
     const items = [];
     for (let i = 0; i < pinDigits; i++) {
         items.push(
             <div className="col" key={i}>
-                <InputWrapper field={pinFields} handleChange={handleChange}/>
+                <InputWrapper field={pinFields} handleChange={handleChange} />
             </div>
         )
     }
@@ -32,16 +32,16 @@ const PinWrapper = ({pinDigits, pinFields, handleChange}) => {
     )
 }
 export const FormInput = ({
-                              formFields,
-                              handleSubmit,
-                              isCard, pinFields,
-                              pinDigits, handleChange,
-                              transferFunds
+    formFields,
+    handleSubmit,
+    isCard, pinFields,
+    pinDigits, handleChange,
+    transferFunds
 }) => {
-    return(
+    return (
         <form name="form" onSubmit={handleSubmit}>
             {formFields.map((field) => (
-                <div className="form-group" key = {field.id}>
+                <div className="form-group" key={field.id}>
                     <label>{field.label}</label>
                     <div className="input-group has-validation">
                         {field.name === "recipient" &&
@@ -61,7 +61,7 @@ export const FormInput = ({
             /> : ''}
             <div className="form-group">
                 <button className="btn btn-primary">
-                    {transferFunds ? 'SUBMIT' : 'VERIFY' }
+                    {transferFunds ? 'SUBMIT' : 'VERIFY'}
                 </button>
             </div>
         </form>
