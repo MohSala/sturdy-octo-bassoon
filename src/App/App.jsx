@@ -35,9 +35,6 @@ function App() {
                         <PrivateRoute exact path="/" component={HomePage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
-                        <Route path="/addCash" component={DepositMoney} />
-                        <Route path="/addCard" component={AddCard} />
-                        <Route path="/transfer-funds" component={TransferFunds} />
                         <Redirect from="*" to="/" />
                     </Switch>
                 </Router>

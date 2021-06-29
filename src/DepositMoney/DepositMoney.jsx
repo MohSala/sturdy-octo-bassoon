@@ -6,12 +6,9 @@ import {depositMoney, verifyPin} from "../_actions/depositMoneyActions";
 
 
 export const DepositMoney = () => {
-    const [depositMoneyInputs, setDepositMoneyInputs] = useState({
-        amount:"",
-        pin: []
-    });
+    const [amount, setAmount] = useState("");
+    const [pin, setPin] = useState(0);
     const [submitted, setSubmitted] = useState(false);
-    const { amount, pin } = depositMoneyInputs;
     const dispatch = useDispatch();
     const formFields =[
         {
@@ -21,15 +18,11 @@ export const DepositMoney = () => {
             name: 'amount',
         },
     ]
-    const pinFields = {
-            id: "pin",
-            type: "text",
-            label: "PIN",
-        }
+    
     const handleSubmit = (e) =>  {
         e.preventDefault();
         setSubmitted(true);
-
+        
         if (amount && pin) {
             dispatch(verifyPin(pin));
             dispatch(depositMoney(amount));
@@ -37,20 +30,12 @@ export const DepositMoney = () => {
 
     }
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setDepositMoneyInputs((previousValue) => {
-            return {
-                ...previousValue,
-                [name]: value
-            }
-        })
+        const { value } = event.target;
+        setAmount(value);
     }
 
     return(
         <div className="card">
-            <div className="card-header">
-                DEPOSIT MONEY
-            </div>
             <div className="card-body">
                 {submitted && !amount && !pin && (
                     <div className="">
@@ -59,8 +44,7 @@ export const DepositMoney = () => {
                 )}
                 <FormInput
                     formFields={formFields}
-                    pinFields={pinFields}
-                    pinDigits={4}
+                    setPin={setPin}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                 />
