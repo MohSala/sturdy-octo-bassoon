@@ -38,7 +38,7 @@ export const DepositMoney = () => {
         <div className="card">
             <div className="card-body">
                 {submitted && !amount && !pin && (
-                    <div className="">
+                    <div>
                         Please enter a  valid pin or amount
                     </div>
                 )}
