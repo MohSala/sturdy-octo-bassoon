@@ -1,6 +1,6 @@
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
-    
+
 export function configureFakeBackend() {
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
@@ -17,6 +17,8 @@ export function configureFakeBackend() {
                         return authenticate();
                     case url.endsWith('/users/register') && method === 'POST':
                         return register();
+                    case url.endsWith('/users/verify') && method === 'POST':
+                        return verify();
                     case url.endsWith('/users') && method === 'GET':
                         return getUsers();
                     case url.match(/\/users\/\d+$/) && method === 'DELETE':
@@ -46,11 +48,11 @@ export function configureFakeBackend() {
 
             function register() {
                 const user = body;
-    
+
                 if (users.find(x => x.username === user.username)) {
                     return error(`Username  ${user.username} is already taken`);
                 }
-    
+
                 // assign user id and a few other properties then save
                 user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
                 users.push(user);
@@ -58,16 +60,21 @@ export function configureFakeBackend() {
 
                 return ok();
             }
-    
+
+            function verify() {
+
+                return ok();
+            }
+
             function getUsers() {
                 if (!isLoggedIn()) return unauthorized();
 
                 return ok(users);
             }
-    
+
             function deleteUser() {
                 if (!isLoggedIn()) return unauthorized();
-    
+
                 users = users.filter(x => x.id !== idFromUrl());
                 localStorage.setItem('users', JSON.stringify(users));
                 return ok();
@@ -90,7 +97,7 @@ export function configureFakeBackend() {
             function isLoggedIn() {
                 return headers['Authorization'] === 'Bearer fake-jwt-token';
             }
-    
+
             function idFromUrl() {
                 const urlParts = url.split('/');
                 return parseInt(urlParts[urlParts.length - 1]);

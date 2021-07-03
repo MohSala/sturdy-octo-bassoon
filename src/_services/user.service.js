@@ -8,6 +8,8 @@ export const userService = {
     getAll,
     getById,
     update,
+    verify,
+    getTransactions,
     delete: _delete
 };
 
@@ -18,10 +20,11 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch(`${config.apiUrl}/api/v1/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            console.log("JSON USER ", user);
             localStorage.setItem('user', JSON.stringify(user));
 
             return user;
@@ -34,12 +37,21 @@ function logout() {
 }
 
 function getAll() {
+    let user = JSON.parse(localStorage.getItem('user'));
+
     const requestOptions = {
         method: 'GET',
-        headers: authHeader()
+        headers: new Headers({
+            'Authorization': 'Bearer ' + user.token,
+            'Access-Control-Allow-Origin': "*",
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }),
+        // mode: "no-cors",
     };
 
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/api/v1/welcom`, requestOptions)
+        .then(handleResponse);
 }
 
 function getById(id) {
@@ -58,7 +70,14 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/api/v1/register`, requestOptions)
+        .then(resp => {
+            return resp.text().then(text => {
+                const data = text && JSON.stringify(text);
+                console.log("data ", data);
+            })
+        }
+        );
 }
 
 function update(user) {
@@ -69,6 +88,23 @@ function update(user) {
     };
 
     return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
+}
+
+function verify(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    return fetch(`${config.apiUrl}/api/v1/registration/confirm`, requestOptions)
+        .then(resp => {
+            return resp.text().then(text => {
+                const data = text && JSON.stringify(text);
+                console.log("data ", data);
+            })
+        }
+        );
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -97,4 +133,22 @@ function handleResponse(response) {
 
         return data;
     });
+}
+
+function getTransactions(walletID) {
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+            'Authorization': 'Bearer ' + user.token,
+            'Access-Control-Allow-Origin': "*",
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }),
+        // mode: "no-cors",
+    };
+
+    return fetch(`${config.apiUrl}/api/v1/wallet/${walletID}/transactions`, requestOptions)
+        .then(handleResponse);
 }
