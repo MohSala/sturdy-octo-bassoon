@@ -8,6 +8,8 @@ export const userActions = {
     logout,
     register,
     getAll,
+    getTransactions,
+    verification,
     delete: _delete
 };
 
@@ -17,7 +19,7 @@ function login(username, password, from) {
 
         userService.login(username, password)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
                     history.push(from);
                 },
@@ -43,8 +45,26 @@ function register(user) {
         dispatch(request(user));
 
         userService.register(user)
+            .then(() => {
+                dispatch(success());
+                history.push('/verification');
+
+            })
+
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function verification(user) {
+    return dispatch => {
+        dispatch(request(user));
+
+        userService.verify(user)
             .then(
-                user => { 
+                user => {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));
@@ -54,11 +74,10 @@ function register(user) {
                     dispatch(alertActions.error(error.toString()));
                 }
             );
-    };
-
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+    }
+    function request(user) { return { type: userConstants.VERIFICATION_REQUEST, user } }
+    function success(user) { return { type: userConstants.VERIFICATION_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.VERIFICATION_FAILURE, error } }
 }
 
 function getAll() {
@@ -75,6 +94,22 @@ function getAll() {
     function request() { return { type: userConstants.GETALL_REQUEST } }
     function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
     function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
+}
+
+function getTransactions(data) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.getTransactions(data)
+            .then(
+                transactions => dispatch(success(transactions)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: userConstants.GET_TRANSACTIONS_REQUEST } }
+    function success(transactions) { return { type: userConstants.GET_TRANSACTIONS_SUCCESS, transactions } }
+    function failure(error) { return { type: userConstants.GET_TRANSACTIONS_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

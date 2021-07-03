@@ -1,45 +1,46 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import { FormInput } from "../_components/FormInput";
-import {useDispatch, useSelector} from "react-redux";
-import {verifyCard} from "../_actions/depositMoneyActions";
+import { useDispatch, useSelector } from "react-redux";
+import { verifyCard } from "../_actions/depositMoneyActions";
 
 
 export const AddCard = () => {
     const [addCardInputs, setAddCardInputs] = useState({
-        cardNo:"",
-        expDate: "",
-        cvc:""
+        cardNumber: "",
+        expareDate: "",
+        csv: ""
     });
     const [submitted, setSubmitted] = useState(false);
-    const { cardNo, expDate, cvc } = addCardInputs;
+    const { cardNumber, expareDate, csv } = addCardInputs;
     const dispatch = useDispatch();
-    const formFields =[
+    const formFields = [
         {
-            id: "cardNo",
+            id: "cardNumber",
             type: "text",
             label: "Card Number"
         },
         {
-            id: "expDate",
+            id: "expareDate",
             type: "text",
             label: "ExpiryDate"
         },
         {
-            id: "cvc",
+            id: "csv",
             type: "text",
-            label: "CVC"
+            label: "CSV"
         },
     ]
 
-    const handleSubmit = (e) =>  {
+    const handleSubmit = (e) => {
+        console.log("ENTERING SUMBIT")
         e.preventDefault();
 
         setSubmitted(true);
-        if (cardNo && expDate && cvc) {
+        if (cardNumber && expareDate && csv) {
             // get return url from location state or default to home page
             // const { from } = location.state || { from: { pathname: "/" } };
-            dispatch(verifyCard({cardNo, expDate, cvc}));
+            dispatch(verifyCard({ cardNumber, expareDate, csv }));
         }
     }
     const handleChange = (event) => {
@@ -51,7 +52,7 @@ export const AddCard = () => {
             }
         })
     }
-    return(
+    return (
         <div className="card">
             <div className="card-header">
                 ADD CARD
