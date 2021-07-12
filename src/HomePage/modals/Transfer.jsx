@@ -42,7 +42,7 @@ function Transfer(props) {
                 })
                 .catch(err => {
                     setError(true);
-                    setErrorMsg(err.message)
+                    setErrorMsg(err.response.data)
                 })
         }
     }

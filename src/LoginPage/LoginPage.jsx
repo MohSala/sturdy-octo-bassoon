@@ -54,7 +54,7 @@ function LoginPage() {
                         <form name="form" onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label style={{ fontFamily: 'Raleway' }}>Email</label>
-                                <input type="text" name="username" value={username}
+                                <input type="email" name="username" value={username}
                                     onChange={handleChange}
                                     className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
                                 {submitted && !username &&

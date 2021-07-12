@@ -35,7 +35,8 @@ function Deposit(props) {
                 })
                 .catch(err => {
                     setError(true);
-                    setErrorMsg(err.message)
+                    console.log("ERR>>> ", err.response)
+                    setErrorMsg(err.response.data)
                 })
         }
     }
@@ -72,7 +73,9 @@ function Deposit(props) {
                         <div className="form-group">
                             <label>Amount</label>
                             <div className="input-group">
-                                <input type="text"
+                                <input type="number"
+                                    // min="10"
+                                    // step="1"
                                     name="amount"
                                     className="form-control"
                                     onChange={handleChange}

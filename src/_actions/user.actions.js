@@ -50,6 +50,10 @@ function register(user) {
                 history.push('/verification');
 
             })
+            .catch(error => {
+                dispatch(failure(error.toString()));
+                dispatch(alertActions.error(error.toString()));
+            })
 
     };
 

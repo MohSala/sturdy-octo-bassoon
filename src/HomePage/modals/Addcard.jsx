@@ -9,6 +9,8 @@ function Addcard() {
         csv: ""
     });
     const [showAlert, setShowAlert] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleSubmit = (e) => {
         console.log("ENTERING SUMBIT")
@@ -31,7 +33,11 @@ function Addcard() {
                         setShowAlert(true);
                     }
                 })
-                .catch(err => console.log("ERROR ", err))
+                .catch(err => {
+                    setError(true);
+                    console.log("ERR>>> ", err.response)
+                    setErrorMsg(err.response.data)
+                })
         }
     }
 
@@ -53,6 +59,12 @@ function Addcard() {
                     showAlert &&
                     <div class="alert alert-success" role="alert">
                         Card has been added successfully
+                    </div>
+                }
+                {
+                    error &&
+                    <div className="alert alert-danger" role="alert">
+                        {errorMsg}
                     </div>
                 }
                 <div className="card-body">
